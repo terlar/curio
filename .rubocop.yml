@@ -1,0 +1,99 @@
+AllCops:
+  Exclude:
+    - bin/**/*
+    - vendor/**/*
+
+Encoding:
+  Enabled: true
+
+Documentation:
+  Enabled: false
+
+LineLength:
+  Max: 90
+
+DoubleNegation:
+  Enabled: false
+
+# Class
+ClassLength:
+  Max: 250
+
+TrivialAccessors:
+  Enabled: false
+
+EmptyLinesAroundAccessModifier:
+  Enabled: false
+
+AccessModifierIndentation:
+  EnforcedStyle: indent
+
+# Error
+RaiseArgs:
+  EnforcedStyle: exploded
+
+SignalException:
+  EnforcedStyle: semantic
+
+# Method
+MethodLength:
+  Max: 100
+
+CyclomaticComplexity:
+  Max: 9
+
+SingleLineMethods:
+  AllowIfMethodIsEmpty: false
+
+MethodName:
+  Enabled: false
+
+CollectionMethods:
+  PreferredMethods:
+    collect: 'map'
+    collect!: 'map!'
+    reduce: 'inject'
+    detect: 'find'
+    find_all: 'select'
+
+ShadowingOuterLocalVariable:
+  Enabled: false
+
+# Parameter
+ParameterLists:
+  Max: 3
+  CountKeywordArgs: false
+
+BracesAroundHashParameters:
+  Enabled: false
+  EnforcedStyle: braces
+
+# Block
+Blocks:
+  Enabled: false
+
+MultilineBlockChain:
+  Enabled: false
+
+BlockNesting:
+  Max: 3
+
+# Brackets
+SpaceInsideBrackets:
+  Enabled: false
+
+# Hash
+IndentHash:
+  EnforcedStyle: consistent
+
+SpaceInsideHashLiteralBraces:
+  EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: space
+
+# String
+StringLiterals:
+  EnforcedStyle: single_quotes
+
+# Regexp
+AmbiguousRegexpLiteral:
+  Enabled: false

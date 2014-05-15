@@ -92,4 +92,15 @@ class IntegrationTest < MiniTest::Unit::TestCase
       'b' => item2
     }, collection.to_h)
   end
+
+  def test_coerces_key
+    item = Item.new 1
+    collection << item
+
+    found = collection.fetch '1'
+    assert_equal item, found
+
+    found = collection.fetch :'1'
+    assert_equal item, found
+  end
 end

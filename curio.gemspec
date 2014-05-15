@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/terlar/curio'
   spec.license       = 'MIT'
 
-  spec.files         = `git ls-files -z`.split('\x0')
+  spec.files         = `git ls-files -z`.split("\x0")
   spec.test_files    = spec.files.grep(/^test\//)
   spec.require_paths = ['lib']
 

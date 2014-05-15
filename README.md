@@ -5,6 +5,7 @@ A module to ease creation of collections and enumerable maps
 [![Gem Version](https://badge.fury.io/rb/curio.svg)](http://badge.fury.io/rb/curio)
 [![Build
 Status](https://travis-ci.org/terlar/curio.svg)](https://travis-ci.org/terlar/curio)
+[![Code Climate](https://codeclimate.com/github/terlar/curio.png)](https://codeclimate.com/github/terlar/curio)
 
 ## Installation
 

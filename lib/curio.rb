@@ -2,6 +2,8 @@
 
 require 'curio/version'
 
+require 'forwardable'
+
 # A mixin to define enumerable maps
 class Curio < Module
   # Error raised when fetch cannot find an item with key

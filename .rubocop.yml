@@ -8,7 +8,9 @@ Encoding:
   Enabled: true
 
 Documentation:
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - test/**/*
 
 LineLength:
   Max: 72

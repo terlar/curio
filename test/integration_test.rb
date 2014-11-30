@@ -73,8 +73,7 @@ class IntegrationTest < MiniTest::Unit::TestCase
   end
 
   def test_item_is_known
-    item = Item.new 'a'
-    collection << item
+    collection << Item.new('a')
 
     assert collection.key? 'a'
     assert collection.has? 'a'

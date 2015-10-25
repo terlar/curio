@@ -2,7 +2,7 @@
 
 require_relative 'test_helper'
 
-class IntegrationTest < MiniTest::Unit::TestCase
+class IntegrationTest < Minitest::Test
   class Collection
     include Curio.new(:id)
   end

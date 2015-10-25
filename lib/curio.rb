@@ -29,7 +29,8 @@ class Curio < Module
   #
   # @api private
   def initialize(key, type = String)
-    @key, @type = key, type
+    @key = key
+    @type = type
 
     define_key_method
     define_coerce_key_method

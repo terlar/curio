@@ -131,11 +131,12 @@ class Curio < Module
     # @return [self]
     #
     # @api public
-    def <<(item)
+    def add(item)
       key = coerce_key item.send(key_method)
       @map[key] = item
       self
     end
+    alias_method :<<, :add
 
     # Fetch an item from the collection
     #

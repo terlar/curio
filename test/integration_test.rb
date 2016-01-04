@@ -67,6 +67,15 @@ class IntegrationTest < Minitest::Test
     item = Item.new 1
 
     assert_equal 0, collection.count
+    collection.add item
+    assert_includes collection, item
+    assert_equal 1, collection.count
+  end
+
+  def test_adding_an_item_with_shovel_operator
+    item = Item.new 1
+
+    assert_equal 0, collection.count
     collection << item
     assert_includes collection, item
     assert_equal 1, collection.count

@@ -2,6 +2,7 @@
 
 require_relative 'test_helper'
 
+# rubocop: disable ClassLength
 class IntegrationTest < Minitest::Test
   class Collection
     include Curio.new(:id)
@@ -121,14 +122,18 @@ class IntegrationTest < Minitest::Test
     assert_equal collection.to_h, other_map
   end
 
-  def test_supports_freezing
-    item = Item.new 1
-    collection << item
-
+  def test_supports_freeze
     collection.freeze
 
     assert collection.frozen?
     assert collection.to_h.frozen?
+  end
+
+  def test_freeze_freezes_items
+    collection << Item.new(1)
+    collection.freeze
+
     assert collection.first.frozen?
   end
 end
+# rubocop: enable ClassLength

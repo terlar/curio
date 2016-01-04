@@ -111,4 +111,13 @@ class IntegrationTest < Minitest::Test
     found = collection.fetch :'1'
     assert_equal item, found
   end
+
+  def test_change_map_source
+    other_map = { }
+
+    collection.map = other_map
+    collection << Item.new(1)
+
+    assert_equal collection.to_h, other_map
+  end
 end

@@ -186,5 +186,16 @@ class Curio < Module
     def to_h
       @map
     end
+
+    # Set map source
+    #
+    # @param [Hash] hash
+    #
+    # @return [Hash]
+    #
+    # @api public
+    def map=(hash)
+      @map = hash
+    end
   end
 end

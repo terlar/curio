@@ -133,7 +133,7 @@ class Curio < Module
     # @api public
     def add(item)
       key = coerce_key item.send(key_method)
-      @map[key] = item
+      @map[key.freeze] = item
       self
     end
     alias_method :<<, :add
@@ -196,6 +196,17 @@ class Curio < Module
     # @api public
     def map=(hash)
       @map = hash
+    end
+
+    # Freeze map and items
+    #
+    # @return [self]
+    #
+    # @api public
+    def freeze
+      @map.values.each(&:freeze)
+      @map.freeze
+      super
     end
   end
 end

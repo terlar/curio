@@ -120,4 +120,15 @@ class IntegrationTest < Minitest::Test
 
     assert_equal collection.to_h, other_map
   end
+
+  def test_supports_freezing
+    item = Item.new 1
+    collection << item
+
+    collection.freeze
+
+    assert collection.frozen?
+    assert collection.to_h.frozen?
+    assert collection.first.frozen?
+  end
 end

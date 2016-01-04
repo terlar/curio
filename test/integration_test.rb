@@ -2,6 +2,7 @@
 
 require_relative 'test_helper'
 
+# rubocop: disable ClassLength
 class IntegrationTest < Minitest::Test
   class Collection
     include Curio.new(:id)
@@ -67,6 +68,15 @@ class IntegrationTest < Minitest::Test
     item = Item.new 1
 
     assert_equal 0, collection.count
+    collection.add item
+    assert_includes collection, item
+    assert_equal 1, collection.count
+  end
+
+  def test_adding_an_item_with_shovel_operator
+    item = Item.new 1
+
+    assert_equal 0, collection.count
     collection << item
     assert_includes collection, item
     assert_equal 1, collection.count
@@ -102,4 +112,28 @@ class IntegrationTest < Minitest::Test
     found = collection.fetch :'1'
     assert_equal item, found
   end
+
+  def test_change_map_source
+    other_map = { }
+
+    collection.map = other_map
+    collection << Item.new(1)
+
+    assert_equal collection.to_h, other_map
+  end
+
+  def test_supports_freeze
+    collection.freeze
+
+    assert collection.frozen?
+    assert collection.to_h.frozen?
+  end
+
+  def test_freeze_freezes_items
+    collection << Item.new(1)
+    collection.freeze
+
+    assert collection.first.frozen?
+  end
 end
+# rubocop: enable ClassLength

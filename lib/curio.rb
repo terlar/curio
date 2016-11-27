@@ -12,6 +12,8 @@ class Curio < Module
     end
   end
 
+  ConstraintError = Class.new(TypeError)
+
   # Initialize a collection object with given key and type
   #
   # :key will be used to determine which method to call on items to get
@@ -26,12 +28,16 @@ class Curio < Module
   # @return [undefined]
   #
   # @api private
-  def initialize(key, type = String)
+  def initialize(key, type = String, opts = { }.freeze)
     @key = key
     @type = type
+    @hooks = []
+
+    add_auto_increment_hook if opts[:auto_increment]
 
     define_key_method
     define_coerce_key_method
+    define_hooks_method
 
     freeze
   end
@@ -50,6 +56,38 @@ class Curio < Module
     descendant.module_eval do
       include Enumerable
       include Methods
+    end
+  end
+
+  # Add auto increment hook.
+  #
+  # This adds a hook that sets the item key to the next integer based on
+  # the collection count if no item key is available.
+  #
+  # @return [undefined]
+  #
+  # @api private
+  def add_auto_increment_hook
+    unless @type == Integer
+      fail ConstraintError,
+           'auto-increment requires a key type of Integer'
+    end
+
+    @hooks << lambda do |collection, item|
+      return unless item.send(collection.key_method).nil?
+      item.send(:"#{collection.key_method}=", collection.count + 1)
+    end
+  end
+
+  # Define #hooks based on @hooks
+  #
+  # @return [Array]
+  #
+  # @api private
+  def define_hooks_method
+    hooks = @hooks
+    define_method :hooks do
+      hooks
     end
   end
 
@@ -130,6 +168,7 @@ class Curio < Module
     #
     # @api public
     def add(item)
+      call_add_hooks item
       key = coerce_key item.send(key_method)
       @map[key.freeze] = item
       self
@@ -205,6 +244,18 @@ class Curio < Module
       @map.values.each(&:freeze)
       @map.freeze
       super
+    end
+
+    private
+
+    # Run all attached hooks
+    #
+    # Currently there is only the hook for auto increment if the
+    # collection was configured to use this.
+    #
+    # @api private
+    def call_add_hooks(item)
+      hooks.each { |hook| hook.call(self, item) }
     end
   end
 end

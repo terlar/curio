@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'curio/version'
 
 require 'forwardable'
@@ -76,9 +74,9 @@ class Curio < Module
     type = @type
     define_method :coerce_key do |value|
       case type.to_s
-      when 'String'  then "#{value}"
+      when 'String'  then value.to_s
       when 'Symbol'  then :"#{value}"
-      when 'Integer' then "#{value}".to_i
+      when 'Integer' then value.to_i
       else value
       end
     end
@@ -122,7 +120,7 @@ class Curio < Module
     def values
       @map.values
     end
-    alias_method :all, :values
+    alias all values
 
     # Add an item to the collection
     #
@@ -136,7 +134,7 @@ class Curio < Module
       @map[key.freeze] = item
       self
     end
-    alias_method :<<, :add
+    alias << add
 
     # Fetch an item from the collection
     #
@@ -176,7 +174,7 @@ class Curio < Module
     def key?(key)
       @map.key? coerce_key(key)
     end
-    alias_method :has?, :key?
+    alias has? key?
 
     # Returns a hash representation of the collection
     #

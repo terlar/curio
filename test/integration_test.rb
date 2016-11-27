@@ -36,7 +36,7 @@ class IntegrationTest < Minitest::Test
     assert_equal [item1, item2], collection.values
   end
 
-  def test_retrieving_item
+  def test_retrieving_an_item
     item = Item.new 'a'
     collection << item
 

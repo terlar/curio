@@ -49,7 +49,7 @@ class IntegrationTest < Minitest::Test
 
   def test_retrieving_unknown_item
     found = collection['a']
-    assert_equal nil, found
+    assert_nil found
 
     assert_raises Curio::NotFoundError do
       collection.fetch 'a'

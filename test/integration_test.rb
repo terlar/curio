@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require 'pry'
 
 # rubocop: disable ClassLength
 class IntegrationTest < Minitest::Test
@@ -6,6 +7,7 @@ class IntegrationTest < Minitest::Test
     include Curio.new(:id)
   end
 
+  # Dummy class used for testing
   Item = Struct.new(:id)
 
   attr_reader :collection
@@ -20,20 +22,18 @@ class IntegrationTest < Minitest::Test
   end
 
   def test_retrieving_last_item
-    item1 = Item.new 1
-    item2 = Item.new 2
-    collection << item1 << item2
+    last_item = Item.new 2
+    collection << Item.new(1) << last_item
 
-    assert_equal item2, collection.last
+    assert_equal last_item, collection.last
   end
 
   def test_retriving_all_items
-    item1 = Item.new 1
-    item2 = Item.new 2
-    collection << item1 << item2
+    all_items = [Item.new(1), Item.new(2)]
+    collection << all_items[0] << all_items[1]
 
-    assert_equal [item1, item2], collection.all
-    assert_equal [item1, item2], collection.values
+    assert_equal all_items, collection.all
+    assert_equal all_items, collection.values
   end
 
   def test_retrieving_an_item
@@ -42,6 +42,11 @@ class IntegrationTest < Minitest::Test
 
     found = collection['a']
     assert_equal item, found
+  end
+
+  def test_retrieving_an_item_with_fetch
+    item = Item.new 'a'
+    collection << item
 
     found = collection.fetch 'a'
     assert_equal item, found
@@ -50,32 +55,36 @@ class IntegrationTest < Minitest::Test
   def test_retrieving_unknown_item
     found = collection['a']
     assert_nil found
+  end
 
+  def test_retrieving_unknown_item_with_fetch
     assert_raises Curio::NotFoundError do
       collection.fetch 'a'
     end
+  end
 
+  def test_retrieving_unknown_item_with_fetch_and_default_value
     found = collection.fetch 'a', 'bang'
     assert_equal 'bang', found
+  end
 
+  def test_retrieving_unknown_item_with_fetch_and_default_block
     found = collection.fetch('a') { 'bang' }
     assert_equal 'bang', found
   end
 
   def test_adding_an_item
     item = Item.new 1
-
-    assert_equal 0, collection.count
     collection.add item
+
     assert_includes collection, item
     assert_equal 1, collection.count
   end
 
   def test_adding_an_item_with_shovel_operator
     item = Item.new 1
-
-    assert_equal 0, collection.count
     collection << item
+
     assert_includes collection, item
     assert_equal 1, collection.count
   end
@@ -94,18 +103,20 @@ class IntegrationTest < Minitest::Test
     item2 = Item.new 'b'
     collection << item1 << item2
 
-    assert_equal({
-      'a' => item1,
-      'b' => item2
-    }, collection.to_h)
+    assert_equal({ 'a' => item1, 'b' => item2 }, collection.to_h)
   end
 
-  def test_coerces_key
+  def test_coerces_key_from_string
     item = Item.new 1
     collection << item
 
     found = collection.fetch '1'
     assert_equal item, found
+  end
+
+  def test_coerces_key_from_symbol
+    item = Item.new 1
+    collection << item
 
     found = collection.fetch :'1'
     assert_equal item, found

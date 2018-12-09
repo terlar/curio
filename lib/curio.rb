@@ -75,6 +75,7 @@ class Curio < Module
 
     @hooks << lambda do |collection, item|
       return unless item.send(collection.key_method).nil?
+
       item.send(:"#{collection.key_method}=", collection.count + 1)
     end
   end
